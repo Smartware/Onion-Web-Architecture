@@ -28,7 +28,9 @@ namespace SmartWr.WebFramework.Library.MiddleServices.DataAccess
         public ApplicationDbContext(string nameOrConnectionString, ILogger logger)
             : base(nameOrConnectionString)
         {
-            Database.Log = logger.Log;
+            if (logger != null)
+                Database.Log = logger.Log;
+
             if (_databaseInitialized)
             {
                 return;
@@ -50,7 +52,7 @@ namespace SmartWr.WebFramework.Library.MiddleServices.DataAccess
             base.OnModelCreating(modelBuilder);
             EfConfig.ConfigureEf(modelBuilder);
         }
-        
+
         public new System.Data.Entity.IDbSet<TEntity> Set<TEntity>() where TEntity : BaseEntity
         {
             return base.Set<TEntity>();
